@@ -3,16 +3,22 @@ Plugin untuk menghitung nilai (per baris) dengan operasi dasar matematika pada e
 
 ## Pengaturan dan Penggunaan
 Ada beberapa pengaturan yang harus diset untuk menggunakan plugin ini.
-* row : isinya adalah class atau ID dari sebuah element row, misal tr dari table.
-* math: isi dari option ini adalah array dari formula matematika dasar, nilai akan diambil dari element yang sudah ditentukan divariable formula dan result adalah sum dari semua row yang telah dihitung. Gunakan option appendTo untuk menampilkan nilai pada salah satu element di row tersebut.  
+* row : adalah class atau ID dari sebuah element row, misal tr dari table.
+* math: isi dari option ini adalah array dari formula matematika dasar, nilai akan diambil dari element yang sudah ditentukan pada formula dan result adalah sum dari semua row yang telah dihitung. Gunakan option appendTo untuk menampilkan nilai hasil dari perhitungan (per row) pada salah satu element di row tersebut.  
 * mathResult: option ini untuk menghitung kembali hasil sum/result dari row yang sudah hitung sebelumnya pada option math. Secara penggunaan sama dengan math, hanya isi dari formula adalah variable result dari formula math sebelumnya dan appendTo nya akan ditembak langsung, tidak dicari dari row atau inisial element.
 
-Jangan gunakan strip " - " pada nama element, karena akan terbaca sebagai operator matematika. Gunakan underscore atau gaya camelCase.
+Jangan gunakan strip " - " pada nama element, karena akan terbaca sebagai operator matematika. Gunakan underscore atau gaya camelCase. Bedakan nama result pada tiap option math dan mathResult.
 
 ### Contoh Penggunaan
 ```
 // HTML
-<table id="itemTable">
+<table id="itemTable" border="1">
+    <tr>
+        <td>Price</td>
+        <td>Discount</td>
+        <td>Qty</td>
+        <td>SubTotal</td>
+    </tr>
     <tr class="rowClassName">
         <td class="classPrice">500</td>
         <td class="classDiscount">100</td>
@@ -36,13 +42,13 @@ Jangan gunakan strip " - " pada nama element, karena akan terbaca sebagai operat
 var options = {
     row: '.rowClassName',
     math: [
-        {formula: '(.classPrice-.classDiscount)*.classQty', result: 'subTotal', appendTo: '.subTotal'},
-        {formula: '.classDiscount*.classQty', result: 'totalDiscount'},
+        {formula: '(.classPrice-.classDiscount)*.classQty', result: 'sumSubTotal', appendTo: '.subTotal'},
+        {formula: '.classDiscount*.classQty', result: 'sumDiscount'},
     ],
     mathResult:[
-        {formula: 'subTotal', result: 'total', appendTo: '.total'},
-        {formula: 'totalDiscount', result: 'totalDiscount', appendTo: '.totalDiscount'},
-        {formula: 'subTotal-totalDiscount', result: 'totalPrice', appendTo: '.totalPrice'}
+        {formula: 'sumSubTotal', result: 'total', appendTo: '.total'},
+        {formula: 'sumDiscount', result: 'totalDiscount', appendTo: '.totalDiscount'},
+        {formula: 'sumSubTotal-sumDiscount', result: 'totalPrice', appendTo: '.totalPrice'}
     ]
 }
 
@@ -59,6 +65,7 @@ $(document).ready(function(){
 });
 </script>
 ```
+[Demo](https://jsfiddle.net/nqx8hpc9/)
 
 Semoga bermanfaat.
 Jangan lupa traktir saya kopi dan rokok.
