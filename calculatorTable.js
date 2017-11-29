@@ -112,6 +112,15 @@
                         var nameValue = 0;
                         if(result.hasOwnProperty(vnames)){
                             nameValue = parseFloat(result[vnames].total);
+                        }else if($(vnames).length > 0){
+
+                            if($(vnames).data('autoNumeric') !== undefined){
+                                nameValue = $(vnames).autoNumeric('get');
+                            }else if($(vnames).attr('value') !== undefined){
+                                nameValue = $(vnames).val();
+                            }else if($(vnames).length > 0){
+                                nameValue = $(vnames).text();
+                            }
                         }
 
                         finalResult[iresult][str_formula] = finalResult[iresult][str_formula].replace(vnames, nameValue);
